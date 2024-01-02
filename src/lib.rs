@@ -144,6 +144,7 @@
 #![deny(missing_docs)]
 
 use std::ops::{Index, IndexMut};
+use std::slice::IterMut;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -601,6 +602,11 @@ impl<T: Clone> Array2D<T> {
     /// [row major order]: https://en.wikipedia.org/wiki/Row-_and_column-major_order
     pub fn elements_row_major_iter(&self) -> impl Iterator<Item = &T> {
         self.array.iter()
+    }
+
+    /// Returns a mutable iterator over the elements of the array
+    pub fn elements_iter_mut(&mut self) -> IterMut<T> {
+        self.array.iter_mut()
     }
 
     /// Returns an [`Iterator`] over references to all elements in [column major
