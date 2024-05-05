@@ -150,12 +150,28 @@ use std::slice::IterMut;
 use serde::{Deserialize, Serialize};
 
 /// A fixed sized two-dimensional array.
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Array2D<T: Clone> {
     array: Vec<T>,
     num_rows: usize,
     num_columns: usize,
+}
+
+impl<T: Clone> Clone for Array2D<T> {
+    fn clone(&self) -> Self {
+        Self {
+            array: self.array.clone(),
+            num_rows: self.num_rows,
+            num_columns: self.num_columns,
+        }
+    }
+
+    fn clone_from(&mut self, source: &Self) {
+        self.array.clone_from(&source.array);
+        self.num_rows = source.num_rows;
+        self.num_columns = source.num_columns;
+    }
 }
 
 /// An error that can arise during the use of an [`Array2D`].
